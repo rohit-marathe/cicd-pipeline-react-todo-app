@@ -1,12 +1,9 @@
 sudo: required
 services:
   - docker
-
-before_install:
-  - docker build -t todo -f Dockerfile.dev .
-
+  
 script:
-  - docker run -e CI=true todo npm run test
+  - docker build -t todo .
 
 deploy:
   provider: elasticbeanstalk
