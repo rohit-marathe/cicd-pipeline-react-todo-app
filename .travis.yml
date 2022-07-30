@@ -8,11 +8,7 @@ script:
 deploy:
   provider: elasticbeanstalk
   access_key_id: $ACCESS_KEY_ID
-  secret_access_key:
-    secure: "$SECRET_ACCESS_KEY"
-  skip_cleanup: true
-
-  
+  secret_access_key: "$SECRET_ACCESS_KEY"
   region: "us-east-1"
   app: "Todoapp"
   env: "Todoapp-env-2"
