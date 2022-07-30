@@ -4,6 +4,7 @@ COPY ./package.json ./
 RUN npm install
 COPY ./ ./      
 RUN npm run build
+ENV CI=true
 
 FROM nginx
 EXPOSE 80
