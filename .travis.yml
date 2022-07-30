@@ -3,7 +3,7 @@ services:
   - docker
   
 script:
-  - docker build -t todo .
+  - docker build -t react-to-do-app-dockerize .
 
 deploy:
   provider: elasticbeanstalk
