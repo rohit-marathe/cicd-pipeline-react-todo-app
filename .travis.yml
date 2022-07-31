@@ -6,7 +6,8 @@ before_install:
   - docker build -t reactmy -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true reactmy npm run test
+  - script: docker run reactmy npm run test -- --watchAll=false
+
 
 deploy:
   provider: elasticbeanstalk
