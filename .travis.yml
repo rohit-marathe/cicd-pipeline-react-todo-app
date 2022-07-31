@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t myreact -f Dockerfile.dev .
+  - docker build -t myreact -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true myreact npm run test -- --coverage --watchAll=false
