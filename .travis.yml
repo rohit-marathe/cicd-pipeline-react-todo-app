@@ -15,6 +15,7 @@ deploy:
   env: "Reactmy-env"
   bucket_name: "elasticbeanstalk-us-east-1-440283140762"
   bucket_path: "reactmy"
+  skip_cleanup: true
   on:
     branch: main
   access_key_id: "$AWS_ACCESS_KEY"
