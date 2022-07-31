@@ -1,19 +1,20 @@
 sudo: required
 services:
   - docker
-  
+
+
 script:
-  - docker build -t myreact .
+  - docker build -t reactapp .
 
 deploy:
   provider: elasticbeanstalk
   access_key_id: $ACCESS_KEY_ID
-  secret_access_key: "$SECRET_ACCESS_KEY"
+  secret_access_key:
+    secure: "$SECRET_ACCESS_KEY"
   region: "us-east-1"
-  app: "myreact"
-  env: "myreact-env"
-  bucket_name: "elasticbeanstalk-us-east-1-440283140762"
-  bucket_path: "myapp"
-  
+  app: "reactapp"
+  env: "Reactapp-env"
+  bucket_name: "elasticbeanstalk-ap-south-1-345800986069"
+  bucket_path: "reactapp"
   on:
     branch: main
