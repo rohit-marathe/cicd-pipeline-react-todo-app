@@ -2,15 +2,14 @@ sudo: required
 services:
   - docker
 
+before_install:
+  - docker build -t rohitmarathe/myreact -f Dockerfile.dev .
 
 script:
-  - docker build -t reactapp .
+  - docker run -e CI=true rohitmarathe/myreact npm run test -- --coverage --watchAll=false
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $ACCESS_KEY_ID
-  secret_access_key:
-    secure: "$SECRET_ACCESS_KEY"
   region: "us-east-1"
   app: "reactapp"
   env: "Reactapp-env"
@@ -18,3 +17,5 @@ deploy:
   bucket_path: "reactapp"
   on:
     branch: main
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
