@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t reactmy Dockerfile.dev .
+  - docker build -t reactmy Dockerfile .
 
 script:
   - docker run -e CI=true reactmy npm serve -s build
