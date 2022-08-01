@@ -3,9 +3,9 @@ services:
   Web-service:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "80:3000"
+      - "3000:3000"
     volumes:
       - /var/app/node_modules
       - .:/var/app
