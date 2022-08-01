@@ -10,9 +10,9 @@ script:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+  Access_key_id: $AWS_ACCESS_KEY
+  Secret_acces_key: $AWS_SECRET_KEY
+
   region: "us-east-1"
   app: "reactmy"
   env: "Reactmy-env"
