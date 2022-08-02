@@ -4,6 +4,10 @@ services:
 
 before_deploy: "echo 'ready? and everything working nice'"
 
+script:
+  - "echo 'Everythin Ready'"
+
+
 deploy:
   provider: elasticbeanstalk
   access_key_id: $ACCESS_KEY_ID
