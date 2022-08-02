@@ -9,14 +9,12 @@ script:
 
 
 deploy:
-  provider: elasticbeanstalk
-  Access_key_id: $AWS_ACCESS_KEY
-  Secret_acces_key: $AWS_SECRET_KEY
-
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: "my-cicd-react"
+  skip_cleanup: true
   region: "us-east-1"
-  app: "reactmy"
-  env: "Reactmy-env"
-  bucket_name: "elasticbeanstalk-us-east-1-440283140762"
-  bucket_path: "reactmy"
+  
   on:
     branch: main
