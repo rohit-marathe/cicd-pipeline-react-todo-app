@@ -1,12 +1,13 @@
 FROM node:alpine as teamA
-WORKDIR /usr/app
+WORKDIR /myreact
 COPY ./package*.json ./
 RUN npm install
 COPY ./ ./      
 RUN npm run build
 
+FROM mesosphere/aws-cli
+COPY --from=teamA /myreact/build .
 
-FROM nginx
-EXPOSE 80
-COPY --from=teamA /usr/app/build  /usr/share/nginx/html
+
+CMD ["s3", "sync", "./", "s3://my-cicd-react"]
 
