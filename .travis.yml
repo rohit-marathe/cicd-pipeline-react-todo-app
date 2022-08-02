@@ -2,19 +2,19 @@ sudo: required
 services:
   - docker
 
-before_deploy: "echo 'ready?'"
-
-script:
-- echo "skipping tests"
-
+before_deploy: "echo 'ready? and everything working nice'"
 
 deploy:
-  provider: s3
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: "$AWS_SECRET_KEY"
-  bucket: "my-cicd-react"
-  skip_cleanup: true
+  provider: elasticbeanstalk
+  access_key_id: $ACCESS_KEY_ID
+  secret_access_key:
+    secure: "$SECRET_ACCESS_KEY"  
   region: "us-east-1"
-  
+  app: todo"
+  env: "Todo-env"
+  bucket_name: "elasticbeanstalk-us-east-1-440283140762"
+  bucket_path: "todo"
   on:
-    branch: main
+    branch: main  
+
+
