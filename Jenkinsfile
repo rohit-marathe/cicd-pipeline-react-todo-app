@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("rohitmarathe/todo").withRun('-p 80:80')
+        app = docker.build("rohitmarathe/todo")
     }
 
 }
