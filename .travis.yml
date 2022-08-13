@@ -1,5 +1,18 @@
+sudo: required
+services:
+    - docker
+before_install:
+  - docker build -t myreact-cicd .
+
+script:
+  - echo "everything is working"
+
+#Build our deployment container
+before_deploy:
+  - docker build -t myreact-cicd .
+
 deploy:
-  provider: s3
-  access_key_id: "$ACCESS_KEY_ID"
-  secret_access_key: "$SECRET_ACCESS_KEY"
-  bucket: "S3 Bucket"
+  skip_cleanup: true
+  provider: script
+  on:
+    branch: main
