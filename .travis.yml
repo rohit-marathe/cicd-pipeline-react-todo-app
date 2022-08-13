@@ -1,11 +1,16 @@
 sudo: required
 services:
     - docker
-script:
-  - echo "everything is working fine"
-before_deploy:
-  - docker build -t myreact-cicd .
+before_install:
+  - echo "everything is ok"
 
+before_deploy:
+  - docker build -t my-static-website .
+  
+script:
+  - echo "everything is ok"
+
+#Run our deployment container via shell script if commiting to the master branch
 deploy:
   skip_cleanup: true
   provider: script
