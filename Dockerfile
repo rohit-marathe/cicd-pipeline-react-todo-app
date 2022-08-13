@@ -21,6 +21,6 @@ RUN npm run build
 FROM mesosphere/aws-cli
 
 #Using the alias defined for the first container, copy the contents of the build folder to this container
-COPY --from=builder /my-static-app/build .
+COPY --from=builder /myreact-cicd/build .
 
 CMD ["s3", "sync", "./", "s3://myreact-cicd"] 
