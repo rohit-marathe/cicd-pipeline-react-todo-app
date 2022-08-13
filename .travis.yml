@@ -10,7 +10,7 @@ before_install:
 
 #Run our test Docker container
 script:
-  - docker run myreact-cicd
+  - echo "everything working fine"
 
 #Build our deployment container
 before_deploy:
