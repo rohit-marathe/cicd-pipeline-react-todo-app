@@ -1,14 +1,20 @@
+
+#Request root permissions to the TravisCI runtime environment
 sudo: required
+#Tell TravisCI that we're using docker to run our tests
 services:
     - docker
+#Build our test Docker container
 before_install:
-  - echo "everything is ok"
+  - docker build -t myreact-cicd .
 
-before_deploy:
-  - docker build -t my-static-website .
-  
+#Run our test Docker container
 script:
-  - echo "everything is ok"
+  - docker run myreact-cicd
+
+#Build our deployment container
+before_deploy:
+  - docker build -t myreact-cicd .
 
 #Run our deployment container via shell script if commiting to the master branch
 deploy:
