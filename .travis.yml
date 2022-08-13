@@ -6,11 +6,7 @@ before_install:
 
 script:
   - echo "everything is working"
-
-#Build our deployment container
-before_deploy:
-  - docker build -t myreact-cicd .
-
+  
 deploy:
   skip_cleanup: true
   provider: script
