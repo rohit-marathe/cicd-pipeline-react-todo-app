@@ -38,3 +38,14 @@ jobs:
           at: .
       - checkout
       - run: aws s3 sync ./app/build s3://myreact-cicd
+
+workflows:
+  build_test_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
