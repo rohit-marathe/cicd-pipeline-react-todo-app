@@ -1,33 +1,20 @@
-version: 2.1
 jobs:
-  build_project:
-    working_directory: ~/circle-ci-s3-deploy
-    docker:
-      - image: node:16.16.0-alpine
+  build_deploy:
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
-      - checkout
+      - checkout:
       - run:
-          name: build docker file
-          command: docker build -t rohitmarathe/todo .
-      - run:
-          name: run docker file
-          command: docker run -p 3000:3000 -t rohitmarathe/todo
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  deploy_project:
-    executor: aws-cli/default
-    steps:
-      - attach_workspace:
-          at: .
-      - aws-cli/setup:
-          profile-name: default
-      - run:
-          name: Upload file to S3
-          command: aws s3 sync ./dist/ s3://myreact-cicd 
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run: cd ./app && npm install && npm start
+      - run: aws s3 sync ./app s3://myreact-cicd
 
-
-
-
-
+workflows:
+  version: 2
+  execute_bulk:
+    jobs:
+      - build_deploy
