@@ -13,29 +13,19 @@ jobs:
             sudo apt install python3-pip
             sudo pip3 install awsebcli --upgrade
       - run: npm install 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+
+
   test:
     machine:
       image: ubuntu-2004:202010-01
     steps:
-      - attach_workspace:
-          at: .
-      - checkout
       - run: docker build -t rohitmarathe/todo .
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+
+
   deploy:
     machine:
-        image: ubuntu-2004:202010-01
+        image: ubuntu-2004:202010-01  
     steps:
-      - attach_workspace:
-          at: .
-      - checkout
       - run: aws s3 sync ./build s3://myreact-cicd
     
 
