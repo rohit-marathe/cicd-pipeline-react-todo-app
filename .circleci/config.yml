@@ -24,7 +24,7 @@ jobs:
       - attach_workspace:
           at: .
       - checkout
-      - run: echo "everything is working fine"
+      - run: docker build -t rohitmarathe/todo .
       - persist_to_workspace:
           root: .
           paths:
