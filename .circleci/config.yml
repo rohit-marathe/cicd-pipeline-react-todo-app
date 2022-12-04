@@ -19,7 +19,9 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     steps:
-      - run: docker build -t rohitmarathe/todo 
+      - attach_workspace:
+          at: .
+      - run: docker build -t rohitmarathe/todo .
 
 
   deploy:
