@@ -60,7 +60,6 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId:"argocd-credentials",passwordVariable:"ARGOCD_PASSWORD",usernameVariable:"ARGOCD_USERNAME")]) {
                         // Log in to ArgoCD using direct access to Kubernetes API server
                         sh "argocd login ${env.ARGOCD_SERVER_URL} --insecure --username ${env.ARGOCD_USERNAME} --password ${env.ARGOCD_PASSWORD}"
-                        sh "argocd --insecure --grpc-web --server ${env.ARGOCD_SERVER_URL} app set todo --image ${env.dockerHubUser}/todo:latest"
                         
                         // Now you can perform other ArgoCD operations, such as syncing applications
                         sh "argocd --insecure --grpc-web --server ${env.ARGOCD_SERVER_URL} app sync todo"
