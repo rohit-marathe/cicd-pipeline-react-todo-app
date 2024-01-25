@@ -8,6 +8,8 @@ pipeline {
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
         ARGOCD_SERVER_URL = '3.23.247.74:31159'
+        DOCKER_IMAGE_NAME = 'rohitmarathe/todo'
+        DOCKER_IMAGE_TAG = 'latest'
     }
 
     stages {
@@ -42,15 +44,15 @@ pipeline {
                 echo "Pushing the image to Docker hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker build -t ${env.dockerHubUser}/todo:1.0 ."
-                    sh "docker push ${env.dockerHubUser}/todo:1.0"
+                    sh "docker build -t ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} ."
+                    sh "docker push ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
                 }
             }
         }
 
         stage("TRIVY") {
             steps {
-                sh "trivy image rohitmarathe/todo:1.0 > trivyimage.txt"
+                sh "trivy image ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} > trivyimage.txt"
             }
         }
 
