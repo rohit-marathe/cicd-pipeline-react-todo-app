@@ -7,8 +7,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        ARGOCD_SERVER_URL = withCredentials([string(credentialsId: 'argocd-server', variable: 'ARGOCD_SERVER_URL')]) { return "${ARGOCD_SERVER_URL}" }
-        ARGOCD_CREDENTIALS = credentials('argocd-credentials')
+        ARGOCD_SERVER_URL = '3.23.247.74:31159'
     }
 
     stages {
@@ -38,36 +37,32 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push to Docker Hub') {
+        stage("Docker Build & Push to Docker Hub"){
             steps {
                 echo "Pushing the image to Docker hub"
-                withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker build -t ${env.dockerHubUser}/todo:latest ."
-                    sh "docker push ${env.dockerHubUser}/todo:latest"
+                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker build -t ${env.dockerHubUser}/todo:1.1 ."
+                sh "docker push ${env.dockerHubUser}/todo:1.1"
                 }
             }
         }
 
         stage("TRIVY") {
             steps {
-                sh "trivy image rohitmarathe/todo:latest > trivyimage.txt"
+                sh "trivy image rohitmarathe/todo:1.1 > trivyimage.txt"
             }
         }
 
         stage('Sync ArgoCD Application') {
             steps {
                 script {
+                    withCredentials([usernamePassword(credentialsId:"argocd-credentials",passwordVariable:"ARGOCD_PASSWORD",usernameVariable:"ARGOCD_USERNAME")])
                     // Log in to ArgoCD using direct access to Kubernetes API server
-                    withCredentials([string(credentialsId: 'argocd-server', variable: 'ARGOCD_SERVER_URL'),
-                                     usernamePassword(credentialsId: ARGOCD_CREDENTIALS, passwordVariable: 'ARGOCD_PASSWORD', usernameVariable: 'ARGOCD_USERNAME')]) {
-                        maskPasswords {
-                            sh "argocd login ${ARGOCD_SERVER_URL} --insecure --username ${ARGOCD_USERNAME} --password ${ARGOCD_PASSWORD}"
-                        }
-                    }
-
+                    sh "argocd login ${env.ARGOCD_SERVER_URL} --insecure --username ${env.ARGOCD_USERNAME} --password ${env.ARGOCD_PASSWORD}"
+                    
                     // Now you can perform other ArgoCD operations, such as syncing applications
-                    sh "argocd --insecure --grpc-web --server ${ARGOCD_SERVER_URL} app sync todo"
+                    sh "argocd --insecure --grpc-web --server ${env.ARGOCD_SERVER_URL} app sync todo"
                 }
             }
         }
