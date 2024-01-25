@@ -53,7 +53,7 @@ function App() {
         <div className=" w-full flex items-center justify-between">
           <h1 className=" uppercase text-4xl font-bold text-white tracking-widest mb-4 md:text-3xl">
             {/* Task Manager */}
-            My Today ToDo
+            My Today Task
           </h1>
 
           {darkTheme ? (
