@@ -42,15 +42,15 @@ pipeline {
                 echo "Pushing the image to Docker hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker build -t ${env.dockerHubUser}/todo:latest ."
-                    sh "docker push ${env.dockerHubUser}/todo:latest"
+                    sh "docker build -t ${env.dockerHubUser}/todo:1.0 ."
+                    sh "docker push ${env.dockerHubUser}/todo:1.0"
                 }
             }
         }
 
         stage("TRIVY") {
             steps {
-                sh "trivy image rohitmarathe/todo:latest > trivyimage.txt"
+                sh "trivy image rohitmarathe/todo:1.0 > trivyimage.txt"
             }
         }
 
