@@ -43,15 +43,15 @@ pipeline {
                 echo "Pushing the image to Docker hub"
                 withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker build -t ${env.dockerHubUser}/todo:1.1 ."
-                    sh "docker push ${env.dockerHubUser}/todo:1.1"
+                    sh "docker build -t ${env.dockerHubUser}/todo:latest ."
+                    sh "docker push ${env.dockerHubUser}/todo:latest"
                 }
             }
         }
 
         stage("TRIVY") {
             steps {
-                sh "trivy image rohitmarathe/todo:1.1 > trivyimage.txt"
+                sh "trivy image rohitmarathe/todo:latest > trivyimage.txt"
             }
         }
 
@@ -61,7 +61,9 @@ pipeline {
                     // Log in to ArgoCD using direct access to Kubernetes API server
                     withCredentials([string(credentialsId: 'argocd-server', variable: 'ARGOCD_SERVER_URL'),
                                      usernamePassword(credentialsId: ARGOCD_CREDENTIALS, passwordVariable: 'ARGOCD_PASSWORD', usernameVariable: 'ARGOCD_USERNAME')]) {
-                        sh "argocd login ${ARGOCD_SERVER_URL} --insecure --username ${ARGOCD_USERNAME} --password ${ARGOCD_PASSWORD}"
+                        maskPasswords {
+                            sh "argocd login ${ARGOCD_SERVER_URL} --insecure --username ${ARGOCD_USERNAME} --password ${ARGOCD_PASSWORD}"
+                        }
                     }
 
                     // Now you can perform other ArgoCD operations, such as syncing applications
