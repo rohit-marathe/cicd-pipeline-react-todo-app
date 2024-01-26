@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        ARGOCD_SERVER_URL = '3.23.247.74:31159'
+        ARGOCD_SERVER_URL = credentials('argocd-server')
         DOCKER_IMAGE_NAME = 'rohitmarathe/todo'
         DOCKER_IMAGE_TAG = 'latest-2'
     }
